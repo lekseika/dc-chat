@@ -9,14 +9,13 @@
     <input id="userName" />
     <style>
         .message {
-            font-weight: bold;
+             font-weight:bold
         }
-
     </style>
     <input id="messageInput" />
     <button id="sendMessage">send</button>
 
-    <div>
+    <div id="messages">
         <div class='message'>[19:58]  Someone ups, wrong chat</div>
         <div class='message'>[19:56]  VProoke Hello to u</div>
         <div class='message'>[19:55]  AProoks Hello everyone</div>
@@ -26,17 +25,32 @@
         type="text/javascript"></script>
 
     <script>
+        var messageTemplate = "<div class='message'>[{time}] {sender}: {message}</div>"
+        function formatTemplate(messageTemplate,message)
+        {
+            var t = messageTemplate.replace("{time}", message.time);
+            t = t.replace("{sender}", message.sender);
+            t = t.replace("{message}", message.message);
+            return t;
+        }
+
         $(function () {
             $('#sendMessage')
                 .off('click')
                 .click(                        
                         function () {
                             var now = new Date();
-                            $('div').first()
-                                .prepend('<div class="message">['+now.toLocaleTimeString()+"] "+ $('#userName').val()+ " " + $("#messageInput").val() + '</div>');
-                        });
-        });
+                            var message = {time:now.toLocaleTimeString(),
+                                sender:$('#userName').val(),
+                                message:$("#messageInput").val()};
+                            $('#messages')
+                                .prepend(
+                              
+                                    formatTemplate(messageTemplate, message)
+                                    );
 
+                        });
+        });     
         
     </script>
 </body>
