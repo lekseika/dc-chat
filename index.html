@@ -8,8 +8,13 @@
     <h1>my duper chat</h1>
     <input id="userName" />
     <style>
-        .message {
-             font-weight:bold
+        .message { 
+           
+        }
+
+        .message.selected{
+            font-weight:bold; 
+/*            font-style: italic;*/
         }
     </style>
     <input id="messageInput" />
@@ -52,6 +57,23 @@
                         });
         });     
         
+        $(function(){
+            $(document)
+                .on('mouseenter', ".message"
+                    ,function(e){
+                            $(this)
+                                .addClass('selected');
+                        });
+        });
+
+        $(function(){
+            $(document)
+                .on('mouseleave',".message"
+                    ,function(e){
+                            $(this)
+                                .removeClass('selected');
+                        });
+        });
     </script>
 </body>
 </html>
