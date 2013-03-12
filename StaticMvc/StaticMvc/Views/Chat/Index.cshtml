@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Chat";
+}
+
+<h1>my duper chat</h1>
+
+<form action="/chat/create" method="post">
+    <input id="userName" name="userName"/>
+    <input id="messageInput" name="message"/>
+    <input id="sendMessage" type="submit" value="send"/>
+</form>
+
+<div id="messages">
+    @foreach (var message in ViewBag.Messages)
+    { 
+        <div class='message'>[@DateTime.Now.ToString("HH-mm")]  @message.UserName @message.Message</div>
+    }
+</div>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"
+    type="text/javascript"></script>
+
+<script>
+    $(function () {
+        $(document)
+            .on('mouseenter', ".message"
+                , function (e) {
+                    $(this)
+                        .addClass('selected');
+                });
+    });
+
+    $(function () {
+        $(document)
+            .on('mouseleave', ".message"
+                , function (e) {
+                    $(this)
+                        .removeClass('selected');
+                });
+    });
+</script>
