@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<input id="userName" />
+<input id="messageInput" />
+<button id="sendMessage">send</button>
+<div id="messages">
+    @{Html.RenderAction("Messages");}
+</div>
+
+<script src="http://code.jquery.com/jquery-latest.min.js"
+    type="text/javascript"></script>
+
+<script>
+    var messageTemplate = "<div class='message'>[{time}] {sender}: {message}</div>"
+    function formatTemplate(messageTemplate, message) {
+        var t = messageTemplate.replace("{time}", message.time);
+        t = t.replace("{sender}", message.sender);
+        t = t.replace("{message}", message.message);
+        return t;
+    }
+
+    $(function () {
+        $('#sendMessage')
+            .off('click')
+            .click(
+                    function () {
+                        var now = new Date();
+                        var message = {
+                            sender: $('#userName').val(),
+                            message: $("#messageInput").val()
+                        };
+                        $.post("/Chat/addMessage", message)
+                            .done(function (data) {
+                                $('#messages').empty().append(data);
+                            })
+                        .error(function(e){
+                            console.log(e);
+                        })
+                        //.
+                        //    error(function (e) {
+                        //        console.log(e);
+                        //        $('#messages').prepend("<div>we've had error, sengind this message:" + e.toString()+"</div>");
+                        //});
+                        //$('#messages')
+                        //    .prepend(
+
+                        //        formatTemplate(messageTemplate, message)
+                        //        );
+
+                    });
+    });
+
+    $(function () {
+        $(document)
+            .on('mouseenter', ".message"
+                , function (e) {
+                    $(this)
+                        .addClass('selected');
+                });
+    });
+
+    $(function () {
+        $(document)
+            .on('mouseleave', ".message"
+                , function (e) {
+                    $(this)
+                        .removeClass('selected');
+                });
+    });
+</script>

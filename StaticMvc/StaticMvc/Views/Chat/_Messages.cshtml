@@ -1,0 +1,10 @@
+﻿@model IEnumerable<StaticMvc.Controllers.ChatController.ChatMessage>
+
+
+@foreach (var message in Model.OrderByDescending(c=>c.Time))
+{
+    <div class='message'>[@message.Time.ToString("HH:mm")] @message.UserName @message.Message</div>
+}
+
+
+
